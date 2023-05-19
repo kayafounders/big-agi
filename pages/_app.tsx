@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Head from 'next/head';
+import { SessionProvider } from "next-auth/react"
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import { CacheProvider, EmotionCache } from '@emotion/react';
@@ -28,11 +29,13 @@ export default function MyApp({ Component, emotionCache = clientSideEmotionCache
       </Head>
       {/* Rect-query provider */}
       <QueryClientProvider client={queryClient}>
-        <CssVarsProvider defaultMode='light' theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Component {...pageProps} />
-        </CssVarsProvider>
+        <SessionProvider>
+          <CssVarsProvider defaultMode='light' theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Component {...pageProps} />
+          </CssVarsProvider>
+        </SessionProvider>
       </QueryClientProvider>
     </CacheProvider>
     <VercelAnalytics debug={false} />
